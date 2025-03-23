@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head> 
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 text-center">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">My Account</h2>
+        <div class="text-lg text-gray-700">
+            Username: <span id="username"><%=username%></span>
+        </div>
+        <button onclick="logout()" class="mt-6 py-2 px-4 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition duration-300">Logout</button>
+    </div>
+    <script>
+     // document.getElementById('username').innerText = new URLSearchParams(window.location.search).get('username');
+
+      async function logout() {
+        await fetch("http://localhost:3000/auth/logout", {
+          method: "POST",
+        });
+        window.location.href = "/page/login"; // Redirect to login page
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="flex flex-col items-center justify-start pt-8">
+        <div class="bg-white p-4 rounded-lg shadow-lg w-96 text-center mb-4">
+            <p class="text-gray-800">Victim's username: islamdebbi</p>
+        </div>
+        <div class="bg-white p-8 rounded-lg shadow-lg w-96 text-center">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Login</h2>
+            <p id="error-message" class="text-red-500 mb-4"></p>
+            <form id="loginForm">
+                <input type="text" id="username" name="username" placeholder="Enter your username" required
+                    class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required
+                    class="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit"
+                    class="w-full py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition duration-300">Sign
+                    In</button>
+            </form>
+            <div class="mt-4">
+                <a href="/page/forget-password" class="text-blue-500 hover:underline">Forgot Password?</a>
+            </div>
+            <div class="mt-2">
+                <a href="/page/sign-up" class="text-blue-500 hover:underline">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="/js/login.js"></script> -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            await login();
+        });
+
+        async function login() {
+            try {
+                const errorMessageElement = document.getElementById("error-message");
+                errorMessageElement.innerText = "";
+                const result = await fetch(`http://localhost:3000/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: document.getElementById('username').value,
+                        password: document.getElementById('password').value
+                    })
+                });
+                const data = await result.json();
+                if (!result.ok) {
+                    errorMessageElement.innerText = data.message; // Display error message
+                    console.log(data.message);
+                } else {
+                    console.log('Login successful:', data);
+                    window.location.href = data.redirectUrl; // Redirect to my account page with username
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Login failed. Please check your credentials and try again.');
+            }
+        }
+    </script>
+</body>
+
+</html>
