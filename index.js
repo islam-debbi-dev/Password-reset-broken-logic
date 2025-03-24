@@ -25,9 +25,6 @@ app.use('/auth', auth);
 app.use('/password', password);
 
 
-
-
-
 // not found middleware
 app.use(notFound);
 // error handling middleware

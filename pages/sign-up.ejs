@@ -36,14 +36,16 @@
                 body: JSON.stringify({ username, email, password })
             });
             
-            if(response.ok){
-                alert('Registration successful!');
-                window.location.href = '/page/login';
-            }
-            else{
+            if(!response.ok){
                 const data = await response.json();
                 alert(data.message);
                 console.log(data.message);
+                return;
+            }
+            else{
+                alert('Registration successful!');
+                window.location.href = '/page/login';
+            
             }
         };
     </script>

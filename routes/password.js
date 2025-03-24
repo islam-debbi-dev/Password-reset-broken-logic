@@ -22,9 +22,9 @@ router.post('/forgot-password', asyncHandler(async (req, res) => {
     const token = jwt.sign({id: user.username }, secret, {
       expiresIn: "1h",
     });
-  
+   
     const link = `http://localhost:3000/page/reset-password/?username=${user.username}&token=${token}`;
-    console.log(link)
+    
     const transporter = nodemailer.createTransport({
        service: "gmail",
        auth: {
@@ -59,7 +59,9 @@ router.post('/forgot-password', asyncHandler(async (req, res) => {
   // update password
   router.put('/reset-password', asyncHandler(async (req, res) => {
     const { username, password ,token} = req.body;
+
     console.log(username + password + token);
+
     const user = await User.findOneAndUpdate({username: username}, {password: password});
     if (!user) {
       return res.status(404).json({ message: "user not found" });
@@ -67,6 +69,7 @@ router.post('/forgot-password', asyncHandler(async (req, res) => {
     return res.json({ message: "password updated successfully" });
   }));
 
+  
   router.put('/reset-passwordS', asyncHandler(async (req, res) => {
     const { username, password ,token} = req.body;
     // check if token is valid

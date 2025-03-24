@@ -3,11 +3,19 @@ const router = express.Router();
 const User = require('../modules/user-model');
 const jwt = require('jsonwebtoken');
 
+
 // create a new user
 router.post('/register', async (req, res) => {
     try{
     const user = req.body;
-    console.log(user);
+    // check if username is exist
+    userExist = await User.findOne({username: user.username});
+    if(userExist){
+        res.status(400).json({ message: 'Username is already exist'});
+        return;
+    }
+    else{
+        console.log(user);
     if(!user){
         res.json({ message: 'All fields are required'});
         return;
@@ -18,6 +26,8 @@ router.post('/register', async (req, res) => {
     res.json({ message: 'User created successfully'});
 
 
+    }
+    
 }catch(err){
     res.status(400).json({message: 'User not created error  ' + err});
     console.log(err);
