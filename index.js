@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const  connectDB  = require('./configration/db');
-const path = require('path');
 const port = 3000;
 const page = require('./routes/pages');
 const auth = require('./routes/auth');
@@ -12,8 +11,6 @@ app.use(express.json());
 // Load environment variables from .env file
 dotenv.config();
 
-// Set the views directory
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs'); // Set the view engine to ejs
 
 
