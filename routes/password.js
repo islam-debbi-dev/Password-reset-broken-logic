@@ -70,26 +70,5 @@ router.post('/forgot-password', asyncHandler(async (req, res) => {
   }));
 
   
-  router.put('/reset-passwordS', asyncHandler(async (req, res) => {
-    const { username, password ,token} = req.body;
-    // check if token is valid
-    const user = await User
-      .findOne({ username: username });
-    if (!user) {
-      return res.status(404).json({ message: "user not found" });
-    }
-    const secret = process.env.JWT_SECRET+user.password;
-    try {
-      const decoded = jwt.verify(token, secret);
-      if (decoded.id !== username) {
-        return res.status(401).json({ message: "unauthorized access" });
-      }
-    } catch (error) {
-      return res.status(401).json({ message: "unauthorized access" });
-    }
-    // update password
-    user.password = password;
-    await user.save();
-    return res.status(200).json({ message: "password updated successfully" });
-    }));
+
 module.exports = router;
